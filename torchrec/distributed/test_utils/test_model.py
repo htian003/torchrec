@@ -345,7 +345,10 @@ class ModelInput(Pipelineable):
                 )
             }
             # pyrefly: ignore[bad-specialization]
-            global_idlist_input = TensorDict(source=cast(Any, dict_of_nt))
+            global_idlist_input = TensorDict(
+                source=cast(Any, dict_of_nt),
+                batch_size=[batch_size * world_size],
+            )
 
             assert (
                 len(idscore_features) == 0
@@ -465,7 +468,10 @@ class ModelInput(Pipelineable):
                     )
                 }
                 # pyrefly: ignore[bad-specialization]
-                local_idlist_input = TensorDict(source=cast(Any, dict_of_nt))
+                local_idlist_input = TensorDict(
+                    source=cast(Any, dict_of_nt),
+                    batch_size=[batch_size_by_rank[r]],
+                )
                 assert (
                     len(idscore_features) == 0
                 ), "TensorDict does not support weighted features"
